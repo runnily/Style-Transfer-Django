@@ -283,7 +283,7 @@ def regression_total_loss(c_image, s_image, g_image, alpha, beta):
         Returns 
 
     """
-    opt = optimizer(10)
+    opt = tf.keras.optimizers.Adam(learning_rate=0.02, beta_1=0.99, epsilon=1e-1)
     g_image  = tf.Variable(g_image) 
     iteration = 8000
     for _ in range(iteration+1):
@@ -330,8 +330,8 @@ if __name__ == "__main__":
     IMG_HEIGHT = 224 #aspect_ratio(image_path) optional if you want to apply an aspect path
     CHANNEL = 3
 
-    ALPHA = 1 #content weight
-    BETA = 1 #style weight
+    ALPHA = 1e-4 #content weight
+    BETA = 1e-1 #style weight
 
     #ALPHA = 1e-5 #content weight
     #BETA = 1e-1 #style weight

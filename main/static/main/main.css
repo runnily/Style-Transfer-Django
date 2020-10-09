@@ -1,0 +1,17 @@
+.border-radius-30 {
+    border-radius: 5%;
+}
+
+.header {
+    box-shadow: 10px 3px 5px #B0B0B0;
+    width: 105vw;
+    z-index: 1;
+}
+
+.header h2 {
+    position: relative;
+    left: 20%;
+}
+
+
+
