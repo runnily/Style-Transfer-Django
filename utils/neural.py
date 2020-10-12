@@ -9,7 +9,6 @@ Thisis project is done using "A Neural Algorithm of Artistic Style
 by. Leon A. Gatys,  Alexander S. Ecker, Matthias Bethge" as a reference
 """
 import os
-from django.templatetags.static import static
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -283,7 +282,7 @@ def regression_total_loss(c_image, s_image, g_image, alpha, beta):
         Returns 
 
     """
-    opt = tf.keras.optimizers.Adam(learning_rate=5)
+    opt = tf.keras.optimizers.Adam(learning_rate=0.2)
     g_image  = tf.Variable(g_image) 
     iteration = 8000
     for _ in range(iteration+1):
@@ -330,14 +329,15 @@ if __name__ == "__main__":
     IMG_HEIGHT = 224 #aspect_ratio(image_path) optional if you want to apply an aspect path
     CHANNEL = 3
 
-    ALPHA = 1e2 #content weight
-    BETA = 1e1
+    #ALPHA = 1e2 #content weight
+    #BETA = 1e1
+    #https://hackersandslackers.com/creating-django-views/
 
     #ALPHA = 1e-1 #content weight
     #BETA = 1e-3 #style weight
 
-    #ALPHA = 1e-5 #content weight
-    #BETA = 1e-1 #style weight
+    ALPHA = 1e-5 #content weight
+    BETA = 1e-1 #style weight
 
     c_image, g_image, s_image = tensor_inputs(image_path, noise_path, style_path)
    

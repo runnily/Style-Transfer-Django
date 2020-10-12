@@ -1,4 +1,4 @@
-{%load static%}
+{%load static%} {%load crispy_forms_tags%}
 <!doctype html>
 <html lang="en">
 
@@ -21,12 +21,12 @@
 </head>
 
 <body style="background-color: #F5F9FC">
-
+    <!-- The top of the page-->
     <div class="top">
-
+        <!-- Navigation at the side -->
         <nav>
             <ul class="nav flex-column">
-                <li><a class="nav-link active" href="#">Home</a></li>
+                <li><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
                 <li><a class="nav-link" href="#">Learn More</a></li>
                 <li><a class="nav-link" href="#" data-toggle="modal" data-target="#ModalCenter">Try now</a></li>
                 <li><a class="nav-link" href="#">Code</a></li>
@@ -34,6 +34,7 @@
                 <li><a class="nav-link" href="#">GitHub</a></li>
             </ul>
         </nav>
+        <!-- Header -->
         <header class="bg-white">
             <h1>Neural Style Network</h1>
         </header>
@@ -41,16 +42,17 @@
 
 
     </div>
-
+    <!--Main sections includes example of neural network-->
     <main class="bg-white">
         <section class="demo">
+            {%block content%}
             <div class="top">
                 <h1> An example below </h1>
+                <!-- Bootsrap drop down -->
                 <div class="dropdown">
                     <a class="btn btn-sm btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   ...
                 </a>
-
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ModalCenter">Try Now</a>
                         <a class="dropdown-item" href="#">Learn more</a>
@@ -58,6 +60,12 @@
                     </div>
                 </div>
             </div>
+            {%if messages%} {%for message in messages%}
+            <div class="alert alert-{{message.tags}}" role="alert">
+                {{message}}
+            </div>
+            {%endfor%} {%endif%}
+            <!-- This is the slide-->
             <div id="carouselExampleSlidesOnly" class="carousel slide neural-slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
@@ -78,10 +86,12 @@
       Try Now
     </button>
         </section>
+        {% endblock %}
     </main>
 
 
-    <!-- Modal -->
+    <!-- Modal used for user inputs-->
+    {%block input%}
     <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -91,16 +101,34 @@
             <span aria-hidden="true">&times;</span>
           </button>
                 </div>
-                <div class="modal-body">
-                    /form here/
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submitt</button>
+                <div class="modal-body" style="max-width: 100%;">
+                    <form method="POST" enctype="multipart/form-data" class="neural_inputs">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4"> Default already set</legend>
+                            {{form_content}}
+                            <p> Style choice Below </p>
+                            <div class="style-images">
+                                {% for key, value in form_neural.STYLE_IMGS%}
+                                <figure>
+                                    <img src="{%static 'main/'%}{{value}}" />
+                                    <figcaption>{{key}}</figcaption>
+                                </figure>
+                                {%endfor%}
+                            </div>
+                            {{form_neural.as_p}}
+                        </fieldset>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Submit">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    {%endblock%}
+
 </body>
 
 </html>
