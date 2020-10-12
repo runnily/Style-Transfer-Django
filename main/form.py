@@ -1,7 +1,6 @@
 from django import forms
 from django.conf import settings
 from .models import ContentImg
-from utils.style_transfer import Neural
 import os
 
 
@@ -30,14 +29,11 @@ class NeuralInput(forms.Form):
     style_layer_choice = forms.MultipleChoiceField(required=True, 
     widget=forms.CheckboxSelectMultiple, choices=STYLE_LAYERS)
 
-    alpha_choice = forms.DecimalField(max_value=10, min_value=0.2)
-    beta_choice = forms.DecimalField(max_value=10, min_value=0.2)
-
-    def get_style_choice(self):
-        pass
-
-    def neural(self,**kwargs):
-        return Neural(float(kwargs['alpha']), float(kwargs['beta']), [kwargs['content']], kwargs['style'], kwargs['s_img'], kwargs['c_img'])
+    alpha_choice = forms.DecimalField(max_value=1e-1, min_value=1e-10)
+    beta_choice = forms.DecimalField(max_value=1e-1, min_value=1e-10)
+    step = 1e-2*0.1
+    alpha_choice.widget.attrs.update({'class':'custom-range'})
+    beta_choice.widget.attrs.update({'class':'custom-range'})
 
 class ContentFormImg(forms.ModelForm):
     

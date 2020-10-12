@@ -102,7 +102,7 @@
           </button>
                 </div>
                 <div class="modal-body" style="max-width: 100%;">
-                    <form method="POST" enctype="multipart/form-data" class="neural_inputs">
+                    <form method="POST" enctype="multipart/form-data" class="neural_inputs range-field">
                         {% csrf_token %}
                         <fieldset class="form-group">
                             <legend class="border-bottom mb-4"> Default already set</legend>
@@ -117,6 +117,9 @@
                                 {%endfor%}
                             </div>
                             {{form_neural.as_p}}
+                            <p>Alpha Value: <span id="alpha_demo"></span></p>
+                            <p>Beta Value: <span id="beta_demo"></span></p>
+                            <script src="{%static 'main/main.js'%}"></script>
                         </fieldset>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Submit">
