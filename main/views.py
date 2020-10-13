@@ -1,13 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.shortcuts import render
-from utils.style_transfer import Neural
 from .form import NeuralInput, ContentFormImg
 
 # Create your views here.
-transfer = Neural
+
 
 class homeView(View):
     template_name = "main/home.html"
@@ -39,16 +38,15 @@ class homeView(View):
                     'form_content': form_content}
 
         if form_neural.is_valid() & form_content.is_valid():
-            content_layer = form_neural.cleaned_data.get('content_layer_choice')
-            style_layer = form_neural.cleaned_data.get('style_layer_choice')
-            alpha_choice = form_neural.cleaned_data.get('alpha_choice')
-            beta_choice = form_neural.cleaned_data.get('beta_choice')
-            content_img = str(form_content.cleaned_data.get('content_img_choice'))
-            style_img = form_neural.cleaned_data.get('style_img_choice')
             form_content.save()
-            transfer(alpha=alpha_choice, beta=beta_choice, content_layers=content_layer, 
-            style_layers=style_layer, content_path=content_img, 
-            style_path=style_img)
+            request.session['form_neural'] = request.session.get('form_neural')
+            request.session['form_content'] = request.session.get('form_content')
+            request.session['content_layer']= form_neural.cleaned_data.get('content_layer_choice')
+            request.session['style_layer'] = form_neural.cleaned_data.get('style_layer_choice')
+            request.session['alpha_choice'] = form_neural.cleaned_data.get('alpha_choice')
+            request.session['beta_choice'] = form_neural.cleaned_data.get('beta_choice')
+            request.session['content_img'] = str(form_content.cleaned_data.get('content_img_choice'))
+            request.session['style_img'] = form_neural.cleaned_data.get('style_img_choice')
             return redirect('result')
         else:
             print(form_neural.errors)

@@ -29,8 +29,8 @@ class NeuralInput(forms.Form):
     style_layer_choice = forms.MultipleChoiceField(required=True, 
     widget=forms.CheckboxSelectMultiple, choices=STYLE_LAYERS)
 
-    alpha_choice = forms.DecimalField(max_value=1e-1, min_value=1e-10)
-    beta_choice = forms.DecimalField(max_value=1e-1, min_value=1e-10)
+    alpha_choice = forms.FloatField(max_value=1e-1, min_value=1e-10)
+    beta_choice = forms.FloatField(max_value=1e-1, min_value=1e-10)
     step = 1e-2*0.1
     alpha_choice.widget.attrs.update({'class':'custom-range'})
     beta_choice.widget.attrs.update({'class':'custom-range'})
